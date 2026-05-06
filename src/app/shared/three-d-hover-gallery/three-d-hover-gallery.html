@@ -1,0 +1,12 @@
+<div class="slider3d-container" [ngStyle]="containerStyle()">
+  <div class="slider3d-ring" [ngStyle]="ringStyle()">
+    @for (img of images(); track $index) {
+      <img
+        [src]="img.src"
+        [alt]="img.alt || 'Slide ' + ($index + 1)"
+        class="slider3d-card"
+        [ngStyle]="getImageStyle($index)"
+      />
+    }
+  </div>
+</div>

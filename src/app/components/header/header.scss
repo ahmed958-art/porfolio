@@ -1,0 +1,348 @@
+// Simple liquid glass header
+
+.site-header {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: calc(100% - 2rem);
+  max-width: 1120px;
+  height: 64px;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 999px;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      120% 220% at 0% -90%,
+      color-mix(in srgb, white 32%, transparent) 0%,
+      transparent 54%
+    ),
+    radial-gradient(
+      120% 220% at 100% 180%,
+      color-mix(in srgb, var(--accent) 22%, transparent) 0%,
+      transparent 58%
+    ),
+    linear-gradient(
+      125deg,
+      color-mix(in srgb, var(--bg) 62%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 54%, var(--fg) 14%) 48%,
+      color-mix(in srgb, var(--bg) 58%, var(--accent) 16%) 100%
+    );
+  background-size: 180% 180%;
+  border: 1px solid color-mix(in srgb, white 30%, var(--fg) 14%);
+  box-shadow:
+    0 16px 45px color-mix(in srgb, black 24%, transparent),
+    0 2px 14px color-mix(in srgb, var(--accent) 16%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 46%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, black 14%, transparent);
+  backdrop-filter: blur(26px) saturate(170%);
+  -webkit-backdrop-filter: blur(26px) saturate(170%);
+  animation: glassGradientShift 10s ease-in-out infinite;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, white 56%, transparent) 0%,
+      color-mix(in srgb, var(--fg) 24%, white 20%) 34%,
+      transparent 68%
+    );
+    opacity: 0.72;
+    pointer-events: none;
+    animation: glassHighlightFloat 6.5s ease-in-out infinite;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: -80%;
+    left: -36%;
+    width: 42%;
+    height: 230%;
+    transform: rotate(20deg);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, white 30%, var(--accent) 24%),
+      transparent
+    );
+    pointer-events: none;
+    opacity: 0.45;
+    animation: glassShimmerSweep 4.8s ease-in-out infinite;
+  }
+}
+
+.site-header .logo,
+.site-header .nav,
+.site-header .hire-btn,
+.site-header .menu-toggle {
+  position: relative;
+  z-index: 2;
+}
+
+.site-header .hire-btn::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    120deg,
+    color-mix(in srgb, white 28%, transparent),
+    color-mix(in srgb, var(--accent) 40%, transparent)
+  );
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: -1;
+}
+
+.site-header .hire-btn:hover::before {
+  opacity: 1;
+}
+
+.logo {
+  position: relative;
+  z-index: 1;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--fg);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  position: relative;
+  z-index: 1;
+
+  a {
+    position: relative;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: color-mix(in srgb, var(--fg) 84%, transparent);
+    transition: color 0.2s ease;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 1px;
+      background: var(--fg);
+      transition: width 0.25s ease;
+    }
+
+    &:hover {
+      color: var(--fg);
+    }
+
+    &:hover::after {
+      width: 100%;
+    }
+
+    &.active {
+      color: var(--fg);
+    }
+
+    &.active::after {
+      width: 100%;
+    }
+  }
+}
+
+.hire-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  padding: 9px 20px;
+  border: 1px solid color-mix(in srgb, var(--accent) 62%, white 20%);
+  border-radius: 999px;
+  background: var(--accent);
+  color: #14110f;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    background: color-mix(in srgb, var(--accent) 85%, black 15%);
+    border-color: color-mix(in srgb, var(--accent) 72%, black 10%);
+  }
+}
+
+.menu-toggle {
+  display: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, white 24%, var(--fg) 20%);
+  background: color-mix(in srgb, var(--bg) 76%, transparent);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex-direction: column;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  span {
+    width: 18px;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--fg);
+    transition:
+      transform 0.25s ease,
+      opacity 0.2s ease;
+
+    &:nth-child(1).open {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    &:nth-child(2).open {
+      opacity: 0;
+    }
+
+    &:nth-child(3).open {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+  }
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 88px;
+  left: 1rem;
+  right: 1rem;
+  z-index: 999;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 20px;
+  border: 1px solid color-mix(in srgb, white 28%, var(--fg) 12%);
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  box-shadow: 0 18px 38px color-mix(in srgb, black 38%, transparent);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+
+  a {
+    text-decoration: none;
+    color: color-mix(in srgb, var(--fg) 86%, transparent);
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: background 0.2s ease;
+
+    &:hover,
+    &.active {
+      background: color-mix(in srgb, var(--accent) 18%, transparent);
+      color: var(--fg);
+    }
+  }
+
+  .mobile-cta {
+    margin-top: 2px;
+    border: 1px solid color-mix(in srgb, var(--accent) 60%, white 16%);
+    background: var(--accent);
+    color: #14110f;
+    text-align: center;
+  }
+}
+
+@keyframes glassGradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes glassHighlightFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.62;
+  }
+  50% {
+    transform: translateY(2px);
+    opacity: 0.84;
+  }
+}
+
+@keyframes glassShimmerSweep {
+  0% {
+    left: -38%;
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.5;
+  }
+  55% {
+    opacity: 0.24;
+  }
+  100% {
+    left: 92%;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header,
+  .site-header::before,
+  .site-header::after {
+    animation: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .site-header {
+    height: 58px;
+    padding: 0 18px;
+  }
+
+  .site-header .nav,
+  .site-header .hire-btn {
+    display: none;
+  }
+
+  .site-header .menu-toggle,
+  .mobile-menu {
+    display: flex;
+  }
+
+  .logo {
+    font-size: 16px;
+  }
+}

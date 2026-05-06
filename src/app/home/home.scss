@@ -1,0 +1,553 @@
+// ── Slider wrapper ──────────────────────────────────────────────────────────
+.slider {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: 1;
+}
+
+// ── Generic slide ───────────────────────────────────────────────────────────
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5vh 8vw 5vh;
+  overflow: hidden;
+  isolation: isolate; /* creates stacking context so z-index works inside */
+
+  &:not(.slide-0) {
+    display: none;
+  }
+}
+
+.slide-0 { background: transparent; color: var(--fg); }
+.slide-1 { background: transparent; color: var(--fg); }
+.slide-2 { background: transparent; color: var(--fg); }
+.slide-3 { background: transparent; color: var(--fg); }
+
+// ── Inner layout ────────────────────────────────────────────────────────────
+.slide-inner {
+
+  max-width: 1400px;
+  // Never taller than the visible area minus nav/indicator space
+  max-height: calc(100vh - 14rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+// ── Big title ────────────────────────────────────────────────────────────────
+.title {
+  display: block;
+  line-height: 1;
+}
+
+.title-word {
+  display: block;
+  font-size: clamp(3rem, 10.5vw, 10rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  color: inherit;
+
+  // Smaller in content-heavy slides so title + list both fit
+  .slide-2 &,
+  .slide-3 & {
+    font-size: clamp(2.2rem, 6.5vw, 6rem);
+  }
+
+  &.accent {
+    .slide-2 & { color: var(--accent); font-style: italic; }
+    .slide-3 & { color: var(--accent); font-style: italic; }
+  }
+}
+
+.slide-0 .title-word {
+  color: var(--fg);
+}
+
+.slide-0 .title-port {
+  color: var(--fg);
+}
+
+.slide-0 .title-folio {
+  color: var(--accent);
+}
+
+// ── Slide 0 — hero two-column layout ───────────────────────────────────────
+.hero-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  max-height: none;
+}
+
+.hero-left {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-right {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  max-width: 55%;
+  overflow: hidden;
+}
+
+// ── Slide 0 — meta row ──────────────────────────────────────────────────────
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: clamp(1rem, 2.5vh, 2.5rem);
+}
+
+.meta-left,
+.meta-right {
+  font-size: clamp(0.65rem, 1vw, 0.8rem);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--fg) 88%, white 12%);
+}
+
+// ── Scroll indicator ────────────────────────────────────────────────────────
+.slide-indicator {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  z-index: 2;
+}
+
+.scroll-hint {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.scroll-line {
+  width: 1px;
+  height: 3rem;
+  background: var(--accent);
+  transform-origin: top;
+  animation: scrollPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%   { transform: scaleY(0); opacity: 0; }
+  40%  { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0; transform-origin: bottom; }
+}
+
+
+// ── Slide 1 — Intro layout ────────────────────────────────────────────────
+.intro-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4vw;
+  height: 100%;
+  max-height: none;
+}
+
+.intro-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.intro-name {
+  font-size: clamp(2.2rem, 5.5vw, 5rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--fg);
+  margin: 0;
+}
+
+.intro-text {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: clamp(1rem, 1.5vw, 1rem);
+  line-height: 1.7;
+ color: color-mix(in srgb, var(--fg) 90%, white 10%);
+  max-width: 480px;
+  margin: 0;
+  font-weight: 700px;
+}
+
+.intro-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.intro-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1rem 2.2rem;
+  background: var(--accent);
+  color: #161311;
+  border: 2px solid var(--accent);
+  border-radius: 6px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  width: fit-content;
+  text-decoration: none;
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
+
+  .arrow { font-size: 1.1rem; transition: transform 0.3s; }
+  &:hover .arrow { transform: translateX(4px); }
+  &:hover {
+    background: color-mix(in srgb, var(--accent) 85%, black 15%);
+    border-color: color-mix(in srgb, var(--accent) 85%, black 15%);
+  }
+
+  &--outline {
+    background: transparent;
+
+    &:hover {
+      background: var(--accent);
+      color: #161311;
+      border-color: var(--accent);
+    }
+    &:hover .arrow { transform: translateY(3px); }
+  }
+}
+
+.intro-logos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.logos-label {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.7rem;
+  color: color-mix(in srgb, var(--fg) 55%, transparent);
+  letter-spacing: 0.1em;
+  text-transform: none;
+}
+
+.logos-row {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.logo-card {
+  padding: 0.45rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--fg) 26%, transparent);
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: color-mix(in srgb, var(--fg) 60%, transparent);
+  background: color-mix(in srgb, var(--bg) 84%, white 16%);
+  letter-spacing: 0.02em;
+  transition: border-color 0.3s, color 0.3s;
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--accent) 65%, transparent);
+    color: var(--accent);
+  }
+}
+
+.intro-right {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro-photo {
+  width: clamp(220px, 28vw, 380px);
+  height: clamp(220px, 28vw, 380px);
+  border-radius: 50%;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--fg) 14%, transparent);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+// ── Slide 2 — About ─────────────────────────────────────────────────────────
+.about-layout {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.8rem, 1.5vh, 1.5rem);
+}
+
+.slide-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.slide-number {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  opacity: 0.35;
+}
+
+.slide-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.45;
+}
+
+.about-grid {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+  border-top: 1px solid color-mix(in srgb, var(--fg) 35%, transparent);
+}
+
+.about-grid-item {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: clamp(0.7rem, 1.2vh, 1.2rem) 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--fg) 24%, transparent);
+  transition: padding-left 0.35s ease;
+
+  &:hover { padding-left: 0.8rem; }
+}
+
+// ── Slide 3 — Work ──────────────────────────────────────────────────────────
+.work-layout {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.8rem, 1.5vh, 1.5rem);
+}
+
+.work-grid {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--fg) 30%, transparent);
+}
+
+.work-grid-item {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: clamp(0.7rem, 1.2vh, 1.2rem) 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--fg) 22%, transparent);
+  cursor: pointer;
+  transition: padding-left 0.35s ease;
+
+  &:hover { padding-left: 0.8rem; }
+}
+
+.work-index {
+  font-size: 0.72rem;
+  font-weight: 700;
+  opacity: 0.35;
+  letter-spacing: 0.1em;
+  min-width: 28px;
+}
+
+.work-name {
+  flex: 1;
+  font-size: clamp(0.9rem, 1.6vw, 1.15rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.work-year {
+  font-size: 0.75rem;
+  opacity: 0.4;
+  letter-spacing: 0.1em;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.9rem 2rem;
+  background: var(--accent);
+  color: #161311;
+  border: none;
+  border-radius: 100px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background 0.3s, gap 0.3s;
+  width: fit-content;
+
+  .arrow { transition: transform 0.3s; }
+  &:hover .arrow { transform: translate(3px, -3px); }
+  &:hover {
+    background: color-mix(in srgb, var(--accent) 88%, black 12%);
+    color: #161311;
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// RESPONSIVE
+// ══════════════════════════════════════════════════════════════════════════════
+
+// Tablet (<=1024px)
+@media (max-width: 1024px) {
+  .slide { padding: 5vh 6vw; }
+  .hero-layout { gap: 3vw; }
+  .intro-layout { gap: 3vw; }
+  .intro-photo {
+    width: clamp(180px, 22vw, 280px);
+    height: clamp(180px, 22vw, 280px);
+  }
+  .about-grid-item, .work-grid-item { gap: 1rem; }
+}
+
+// Small tablet / large phone (<=768px)
+@media (max-width: 768px) {
+
+  .slide {
+    padding: 12vh 5vw 10vh;
+    justify-content: flex-start;
+  }
+
+  .slide-inner { max-height: none; }
+
+  // Slide 0: hero stacks vertically
+  .hero-layout {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+
+  .hero-right {
+    width: 100%;
+    max-width: 100%;
+    justify-content: flex-start;
+    overflow: hidden;
+  }
+
+  // Slide 1: intro stacks
+  .intro-layout {
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 1.5rem;
+    justify-content: center;
+  }
+
+  .intro-left {
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .intro-right {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .intro-photo {
+    width: clamp(120px, 35vw, 200px);
+    height: clamp(120px, 35vw, 200px);
+  }
+
+  .intro-name { font-size: clamp(1.8rem, 8vw, 3rem); }
+  .intro-text { font-size: 0.9rem; }
+
+  .intro-cta-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+    margin-top: 0.8rem;
+  }
+
+  .intro-cta {
+    padding: 0.8rem 1.6rem;
+    font-size: 0.82rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .logos-row { gap: 0.4rem; }
+  .logo-card { padding: 0.35rem 0.7rem; font-size: 0.72rem; }
+
+  // Title sizes
+  .title-word { font-size: clamp(2.8rem, 12vw, 6rem); }
+  .slide-2 .title-word,
+  .slide-3 .title-word { font-size: clamp(2rem, 8vw, 4rem); }
+
+  // Grids
+  .about-grid-item, .work-grid-item {
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+    padding: 0.8rem 0;
+  }
+
+  .work-name { font-size: clamp(0.85rem, 3.5vw, 1rem); }
+
+  .cta-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .slide-indicator { display: none; }
+}
+
+// Mobile (<=480px)
+@media (max-width: 480px) {
+
+  .slide { padding: 10vh 5vw 12vh; }
+
+  .title-word { font-size: clamp(2.4rem, 14vw, 4rem); }
+  .slide-2 .title-word,
+  .slide-3 .title-word { font-size: clamp(1.8rem, 10vw, 3rem); }
+
+  .intro-name { font-size: clamp(1.6rem, 10vw, 2.5rem); }
+
+  .intro-photo {
+    width: 110px;
+    height: 110px;
+  }
+
+  .meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+
+  .hero-layout { gap: 1.5rem; }
+
+  .cta-btn { padding: 0.75rem 1.4rem; font-size: 0.8rem; }
+  .work-name { font-size: 0.85rem; }
+  .slide-eyebrow { gap: 0.6rem; }
+}

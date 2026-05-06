@@ -1,0 +1,145 @@
+<div class="slider" #hoverZone>
+
+  
+  
+  <!-- ─── SLIDE 0 — Hero ─────────────────────────────────────────────── -->
+  <section class="slide slide-0" #slide0>
+    <div class="slide-inner hero-layout">
+      <!-- Left: text -->
+      <div class="hero-left">
+        <h1 class="title">
+          <span class="title-word">
+            <span class="title-port">Port</span><span class="title-folio">folio</span>.
+          </span>
+        </h1>
+        <div class="meta">
+          <span class="meta-left">MY DESIGN PORTFOLIO</span>
+          <span class="meta-right">2023–2026</span>
+        </div>
+      </div>
+      <!-- Right: 3D hover gallery -->
+      <div class="hero-right">
+        <app-three-d-hover-gallery
+          [images]="galleryImages"
+          
+          
+          
+          [duration]="25"
+          [cardWidth]="'17.5em'"
+          [rotationDirection]="'left'"
+          [withMask]="true"
+        />
+      </div>
+    </div>
+    <div class="slide-indicator">
+      <span class="scroll-hint">Scroll to explore</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 1 — Intro ──────────────────────────────────────────────── -->
+  <section class="slide slide-1" #slide1>
+    <app-image-trail [size]="160" [gap]="70" />
+    <div class="slide-inner intro-layout">
+      <div class="intro-left">
+        <h2 class="intro-name">Ahmed Javed</h2>
+        <p class="intro-text">
+          Full-stack Angular developer &amp; motion designer crafting
+          award-winning interfaces with GSAP animations and modern web tech.
+        </p>
+        <div class="intro-cta-row">
+          <a class="intro-cta" href="https://calendly.com/ahmedjavedjaved7/30min" target="_blank" rel="noopener noreferrer" aria-label="Schedule a meeting">Schedule a meeting<span class="arrow">›</span></a>
+
+        </div>
+        <div class="intro-logos">
+          <span class="logos-label">Worked with</span>
+          <div class="logos-row">
+            <div class="logo-card">ClickUp</div>
+            <div class="logo-card">Dropbox</div>
+            <div class="logo-card">Paychex</div>
+            <div class="logo-card">elastic</div>
+            <div class="logo-card">stripe</div>
+          </div>
+        </div>
+      </div>
+      <div class="intro-right">
+        <div class="intro-photo">
+          <img src="Gemini_Generated_Image_76gznt76gznt76gz.png" alt="Ahmed Javed" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 2 — About ─────────────────────────────────────────────── -->
+  <section class="slide slide-2" #slide2>
+    <div class="slide-inner about-layout">
+      <div class="slide-eyebrow">
+        <span class="slide-number">03</span>
+        <span class="slide-label">About</span>
+      </div>
+      <h2 class="title">
+        <span class="title-word">Building things</span>
+        <span class="title-word accent">that matter.</span>
+      </h2>
+      <div class="about-grid">
+        <div class="about-grid-item">
+          <span class="work-index">01</span>
+          <span class="work-name">Full-Stack Angular Developer</span>
+          <span class="work-year">2023–Now</span>
+        </div>
+        <div class="about-grid-item">
+          <span class="work-index">02</span>
+          <span class="work-name">GSAP & Motion Design</span>
+          <span class="work-year">Expert</span>
+        </div>
+        <div class="about-grid-item">
+          <span class="work-index">03</span>
+          <span class="work-name">UI/UX — Award-winning Interfaces</span>
+          <span class="work-year">∞</span>
+        </div>
+        <div class="about-grid-item">
+          <span class="work-index">04</span>
+          <span class="work-name">TypeScript · SCSS · Node · REST</span>
+          <span class="work-year">Stack</span>
+        </div>
+      </div>
+      <a class="cta-btn" href="Resume.pdf" download="Ahmed_Javed_Resume.pdf" aria-label="Download Resume">Download Resume <span class="arrow">↓</span></a>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 3 — Work ──────────────────────────────────────────────── -->
+  <section class="slide slide-3" #slide3>
+    <div class="slide-inner work-layout">
+      <div class="slide-eyebrow">
+        <span class="slide-number">04</span>
+        <span class="slide-label">Selected Work</span>
+      </div>
+      <h2 class="title">
+        <span class="title-word">Work that</span>
+        <span class="title-word accent">speaks.</span>
+      </h2>
+      <div class="work-grid">
+        <div class="work-grid-item">
+          <span class="work-index">01</span>
+          <span class="work-name">Brand Identity — Nexus</span>
+          <span class="work-year">2026</span>
+        </div>
+        <div class="work-grid-item">
+          <span class="work-index">02</span>
+          <span class="work-name">Web App — Orbit Dashboard</span>
+          <span class="work-year">2025</span>
+        </div>
+        <div class="work-grid-item">
+          <span class="work-index">03</span>
+          <span class="work-name">Motion — Elevate Launch</span>
+          <span class="work-year">2024</span>
+        </div>
+      </div>
+      <button class="cta-btn" aria-label="View all projects">
+        View all projects <span class="arrow">↗</span>
+      </button>
+    </div>
+  </section>
+
+</div>
+
