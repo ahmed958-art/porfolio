@@ -438,7 +438,7 @@
 @media (max-width: 768px) {
 
   .slide {
-    padding: 12vh 5vw 10vh;
+    padding: max(12vh, 6.8rem) 5vw 10vh;
     justify-content: flex-start;
   }
 
@@ -526,7 +526,7 @@
 // Mobile (<=480px)
 @media (max-width: 480px) {
 
-  .slide { padding: 10vh 5vw 12vh; }
+  .slide { padding: max(11vh, 6.6rem) 5vw 12vh; }
 
   .title-word { font-size: clamp(2.4rem, 14vw, 4rem); }
   .slide-2 .title-word,
