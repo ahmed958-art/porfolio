@@ -1,35 +1,224 @@
 .page {
   min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 8rem 1.25rem 2rem;
+  padding: clamp(6.8rem, 11vh, 7.8rem) clamp(0.9rem, 3vw, 1.35rem) 2.5rem;
+  color: var(--fg);
 }
 
-.page-card {
-  width: min(860px, 100%);
-  border: 1px solid color-mix(in srgb, var(--fg) 14%, transparent);
-  border-radius: 20px;
-  padding: clamp(1.25rem, 2vw, 2rem);
-  background: color-mix(in srgb, var(--bg) 75%, transparent);
+.services-shell {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 1rem;
 }
 
 .eyebrow {
-  margin: 0 0 0.4rem;
+  margin: 0;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   font-size: 0.74rem;
-  opacity: 0.65;
+  color: color-mix(in srgb, var(--accent) 85%, white 15%);
+  font-weight: 700;
+}
+
+.banner {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, white 38%, transparent);
+  border-radius: 28px;
+  padding: clamp(1.2rem, 2.2vw, 2rem);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, white 14%, transparent), color-mix(in srgb, black 16%, transparent)),
+    radial-gradient(125% 140% at 0% 0%, color-mix(in srgb, var(--accent) 24%, transparent) 0%, transparent 58%),
+    color-mix(in srgb, var(--bg) 64%, transparent);
+  backdrop-filter: blur(16px) saturate(145%);
+  -webkit-backdrop-filter: blur(16px) saturate(145%);
+  box-shadow:
+    0 18px 40px color-mix(in srgb, black 22%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 58%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, black 20%, transparent);
+}
+
+.banner::before,
+.card::before,
+.stack::before,
+.deliver::before,
+.cta-block::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 95% at 0% 0%, color-mix(in srgb, white 28%, transparent) 0%, transparent 56%);
+  opacity: 0.7;
 }
 
 h1 {
-  margin: 0 0 1rem;
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  margin: 0.55rem 0 0;
+  font-size: clamp(1.7rem, 4vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  margin: 0.9rem 0 1.2rem;
+  max-width: 70ch;
+  color: color-mix(in srgb, var(--fg) 78%, transparent);
+  line-height: 1.55;
+}
+
+.banner-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent) 48%, transparent);
+  background: color-mix(in srgb, var(--accent) 92%, black 8%);
+  color: #1a140f;
+  text-decoration: none;
+  padding: 0.72rem 1.15rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.highlights {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.card,
+.stack,
+.deliver,
+.cta-block {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, white 34%, transparent);
+  border-radius: 22px;
+  background:
+    linear-gradient(150deg, color-mix(in srgb, white 13%, transparent), color-mix(in srgb, black 12%, transparent)),
+    radial-gradient(110% 120% at 100% 0%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 58%),
+    color-mix(in srgb, var(--bg) 62%, transparent);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  box-shadow:
+    0 12px 30px color-mix(in srgb, black 20%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 54%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, black 18%, transparent);
+  padding: clamp(1rem, 1.6vw, 1.45rem);
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 1.02rem;
   color: var(--accent);
 }
 
-ul {
+.card p {
+  margin: 0.6rem 0 0;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--fg) 74%, transparent);
+}
+
+h3 {
   margin: 0;
-  padding-left: 1rem;
+  font-size: 1.2rem;
+  color: var(--accent);
+}
+
+.chip-grid {
+  margin-top: 0.9rem;
   display: grid;
-  gap: 0.45rem;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.65rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  min-height: 2.4rem;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, white 30%, transparent);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, white 11%, transparent), color-mix(in srgb, black 9%, transparent)),
+    color-mix(in srgb, var(--bg) 66%, transparent);
+  backdrop-filter: blur(8px) saturate(135%);
+  -webkit-backdrop-filter: blur(8px) saturate(135%);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.55rem 0.7rem;
+
+  img {
+    width: 1rem;
+    height: 1rem;
+    flex: 0 0 1rem;
+  }
+
+  span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+.deliver ul {
+  margin: 0.8rem 0 0;
+  padding-left: 1.1rem;
+  columns: 2;
+  gap: 2rem;
+}
+
+.deliver li {
+  margin-bottom: 0.45rem;
+  break-inside: avoid;
+}
+
+.cta-block p {
+  margin: 0.7rem 0 1rem;
+  color: color-mix(in srgb, var(--fg) 76%, transparent);
+}
+
+@media (max-width: 920px) {
+  .highlights {
+    grid-template-columns: 1fr;
+  }
+
+  .deliver ul {
+    columns: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding-top: 6.3rem;
+  }
+
+  .chip-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .chip {
+    min-height: 2.2rem;
+    padding: 0.5rem 0.62rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+
+    img {
+      width: 0.9rem;
+      height: 0.9rem;
+      flex-basis: 0.9rem;
+    }
+  }
+
+  .banner-cta {
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .chip-grid {
+    grid-template-columns: 1fr;
+  }
 }

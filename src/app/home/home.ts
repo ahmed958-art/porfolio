@@ -29,14 +29,13 @@ export class Home implements AfterViewInit, OnDestroy {
   slide0 = viewChild.required<ElementRef<HTMLElement>>('slide0');
   slide1 = viewChild.required<ElementRef<HTMLElement>>('slide1');
   slide2 = viewChild.required<ElementRef<HTMLElement>>('slide2');
-  slide3 = viewChild.required<ElementRef<HTMLElement>>('slide3');
   hoverZone = viewChild.required<ElementRef<HTMLElement>>('hoverZone');
 
   currentSlide = signal(0);
-  readonly totalSlides = 4;
+  readonly totalSlides = 3;
   isAnimating = false;
 
-  slides = [{ index: 0 }, { index: 1 }, { index: 2 }, { index: 3 }];
+  slides = [{ index: 0 }, { index: 1 }, { index: 2 }];
 
   galleryImages: GalleryImage[] = [
     { src: 'ecommerce_dark_neon_landing_page.jpg', alt: 'E-commerce project' },
@@ -58,7 +57,6 @@ export class Home implements AfterViewInit, OnDestroy {
       this.slide0().nativeElement,
       this.slide1().nativeElement,
       this.slide2().nativeElement,
-      this.slide3().nativeElement,
     ];
   }
 
