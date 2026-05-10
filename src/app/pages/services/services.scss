@@ -20,10 +20,34 @@
   font-weight: 700;
 }
 
-.banner {
+.glass-panel {
   position: relative;
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, white 38%, transparent);
+  border: 1px solid color-mix(in srgb, white 34%, transparent);
+  border-radius: 22px;
+  background:
+    linear-gradient(150deg, color-mix(in srgb, white 13%, transparent), color-mix(in srgb, black 12%, transparent)),
+    radial-gradient(110% 120% at 100% 0%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 58%),
+    color-mix(in srgb, var(--bg) 62%, transparent);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  box-shadow:
+    0 12px 30px color-mix(in srgb, black 20%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 54%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, black 18%, transparent);
+}
+
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 95% at 0% 0%, color-mix(in srgb, white 28%, transparent) 0%, transparent 56%);
+  opacity: 0.7;
+}
+
+.banner {
+  border-color: color-mix(in srgb, white 38%, transparent);
   border-radius: 28px;
   padding: clamp(1.2rem, 2.2vw, 2rem);
   background:
@@ -38,19 +62,6 @@
     inset 0 -1px 0 color-mix(in srgb, black 20%, transparent);
 }
 
-.banner::before,
-.card::before,
-.stack::before,
-.deliver::before,
-.cta-block::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(120% 95% at 0% 0%, color-mix(in srgb, white 28%, transparent) 0%, transparent 56%);
-  opacity: 0.7;
-}
-
 h1 {
   margin: 0.55rem 0 0;
   font-size: clamp(1.7rem, 4vw, 3rem);
@@ -63,22 +74,6 @@ h1 {
   max-width: 70ch;
   color: color-mix(in srgb, var(--fg) 78%, transparent);
   line-height: 1.55;
-}
-
-.banner-cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--accent) 48%, transparent);
-  background: color-mix(in srgb, var(--accent) 92%, black 8%);
-  color: #1a140f;
-  text-decoration: none;
-  padding: 0.72rem 1.15rem;
-  font-size: 0.8rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
 .highlights {
@@ -235,51 +230,8 @@ h1 {
   transform: scale(1.04);
 }
 
-.card,
-.stack,
-.deliver,
-.cta-block {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid color-mix(in srgb, white 34%, transparent);
-  border-radius: 22px;
-  background:
-    linear-gradient(150deg, color-mix(in srgb, white 13%, transparent), color-mix(in srgb, black 12%, transparent)),
-    radial-gradient(110% 120% at 100% 0%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 58%),
-    color-mix(in srgb, var(--bg) 62%, transparent);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  box-shadow:
-    0 12px 30px color-mix(in srgb, black 20%, transparent),
-    inset 0 1px 0 color-mix(in srgb, white 54%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, black 18%, transparent);
-  padding: clamp(1rem, 1.6vw, 1.45rem);
-}
-
-.card h2 {
-  margin: 0;
-  font-size: 1.02rem;
-  color: var(--accent);
-}
-
-.card p {
-  margin: 0.6rem 0 0;
-  line-height: 1.5;
-  color: color-mix(in srgb, var(--fg) 74%, transparent);
-}
-
-h3 {
-  margin: 0;
-  font-size: 1.2rem;
-  color: var(--accent);
-}
-
 .stack {
   border-color: color-mix(in srgb, var(--accent) 48%, transparent);
-  background:
-    linear-gradient(150deg, color-mix(in srgb, white 13%, transparent), color-mix(in srgb, black 12%, transparent)),
-    radial-gradient(110% 120% at 100% 0%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 58%),
-    color-mix(in srgb, var(--bg) 62%, transparent);
   padding: clamp(1.2rem, 2.2vw, 2rem);
 }
 
@@ -576,10 +528,6 @@ h3 {
     width: 100%;
     min-height: 2.9rem;
     font-size: 0.94rem;
-  }
-
-  .banner-cta {
-    width: 100%;
   }
 }
 
