@@ -48,7 +48,14 @@ export class Home implements AfterViewInit, OnDestroy {
   private wheelHandler!: (e: WheelEvent) => void;
   private touchStartHandler!: (e: TouchEvent) => void;
   private touchEndHandler!: (e: TouchEvent) => void;
+  private touchCancelHandler!: () => void;
+  private pointerDownHandler!: (e: PointerEvent) => void;
+  private pointerUpHandler!: (e: PointerEvent) => void;
+  private pointerCancelHandler!: () => void;
   private touchStartY = 0;
+  private pointerStartY = 0;
+  private usingPointerEvents = false;
+  private readonly swipeThreshold = 30;
 
   private rootElement: HTMLElement | null = null;
 
@@ -91,16 +98,45 @@ export class Home implements AfterViewInit, OnDestroy {
 
       this.touchEndHandler = (e: TouchEvent) => {
         const delta = this.touchStartY - e.changedTouches[0].clientY;
-        if (Math.abs(delta) < 50) return;
+        if (Math.abs(delta) < this.swipeThreshold) return;
         this.zone.run(() => this.goTo(this.currentSlide() + (delta > 0 ? 1 : -1)));
+      };
+
+      this.touchCancelHandler = () => {
+        this.touchStartY = 0;
+      };
+
+      this.pointerDownHandler = (e: PointerEvent) => {
+        if (e.pointerType !== 'touch') return;
+        this.pointerStartY = e.clientY;
+      };
+
+      this.pointerUpHandler = (e: PointerEvent) => {
+        if (e.pointerType !== 'touch') return;
+        const delta = this.pointerStartY - e.clientY;
+        if (Math.abs(delta) < this.swipeThreshold) return;
+        this.zone.run(() => this.goTo(this.currentSlide() + (delta > 0 ? 1 : -1)));
+      };
+
+      this.pointerCancelHandler = () => {
+        this.pointerStartY = 0;
       };
 
       const hz = this.hoverZone().nativeElement;
 
       this.rootElement = hz;
       hz.addEventListener('wheel', this.wheelHandler, { passive: false });
-      hz.addEventListener('touchstart', this.touchStartHandler, { passive: true });
-      hz.addEventListener('touchend', this.touchEndHandler, { passive: true });
+
+      if ('PointerEvent' in window) {
+        this.usingPointerEvents = true;
+        hz.addEventListener('pointerdown', this.pointerDownHandler, { passive: true });
+        hz.addEventListener('pointerup', this.pointerUpHandler, { passive: true });
+        hz.addEventListener('pointercancel', this.pointerCancelHandler, { passive: true });
+      } else {
+        hz.addEventListener('touchstart', this.touchStartHandler, { passive: true });
+        hz.addEventListener('touchend', this.touchEndHandler, { passive: true });
+        hz.addEventListener('touchcancel', this.touchCancelHandler, { passive: true });
+      }
     });
   }
 
@@ -142,8 +178,15 @@ export class Home implements AfterViewInit, OnDestroy {
 
     if (this.rootElement) {
       this.rootElement.removeEventListener('wheel', this.wheelHandler);
-      this.rootElement.removeEventListener('touchstart', this.touchStartHandler);
-      this.rootElement.removeEventListener('touchend', this.touchEndHandler);
+      if (this.usingPointerEvents) {
+        this.rootElement.removeEventListener('pointerdown', this.pointerDownHandler);
+        this.rootElement.removeEventListener('pointerup', this.pointerUpHandler);
+        this.rootElement.removeEventListener('pointercancel', this.pointerCancelHandler);
+      } else {
+        this.rootElement.removeEventListener('touchstart', this.touchStartHandler);
+        this.rootElement.removeEventListener('touchend', this.touchEndHandler);
+        this.rootElement.removeEventListener('touchcancel', this.touchCancelHandler);
+      }
     }
   }
 }
