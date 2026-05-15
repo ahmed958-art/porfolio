@@ -1,26 +1,34 @@
 // ── Slider wrapper ──────────────────────────────────────────────────────────
 .slider {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
+  position: relative;
+  overflow-x: clip;
   z-index: 1;
 }
 
 // ── Generic slide ───────────────────────────────────────────────────────────
 .slide {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 5vh 8vw 5vh;
-  overflow: hidden;
+  overflow: clip;
   isolation: isolate; /* creates stacking context so z-index works inside */
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition:
+    opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+}
 
-  &:not(.slide-0) {
-    display: none;
-  }
+.slide.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  will-change: auto;
 }
 
 .slide-0 { background: transparent; color: var(--fg); }
@@ -30,10 +38,9 @@
 
 // ── Inner layout ────────────────────────────────────────────────────────────
 .slide-inner {
-
+  width: 100%;
   max-width: 1400px;
-  // Never taller than the visible area minus nav/indicator space
-  max-height: calc(100vh - 14rem);
+  min-height: calc(100svh - 10rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -218,13 +225,18 @@
   cursor: pointer;
   width: fit-content;
   text-decoration: none;
-  transition: background 0.3s, color 0.3s, border-color 0.3s;
+  transition:
+    background 0.35s ease,
+    color 0.35s ease,
+    border-color 0.35s ease,
+    transform 0.35s ease;
 
   .arrow { font-size: 1.1rem; transition: transform 0.3s; }
   &:hover .arrow { transform: translateX(4px); }
   &:hover {
     background: color-mix(in srgb, var(--accent) 85%, black 15%);
     border-color: color-mix(in srgb, var(--accent) 85%, black 15%);
+    transform: translateY(-1px);
   }
 
   &--outline {
@@ -269,11 +281,12 @@
   color: color-mix(in srgb, var(--fg) 60%, transparent);
   background: color-mix(in srgb, var(--bg) 84%, white 16%);
   letter-spacing: 0.02em;
-  transition: border-color 0.3s, color 0.3s;
+  transition: border-color 0.42s ease, color 0.42s ease, transform 0.42s ease;
 
   &:hover {
     border-color: color-mix(in srgb, var(--accent) 65%, transparent);
     color: var(--accent);
+    transform: translateY(-1px);
   }
 }
 
@@ -340,7 +353,7 @@
   gap: 1.5rem;
   padding: clamp(0.7rem, 1.2vh, 1.2rem) 0;
   border-bottom: 1px solid color-mix(in srgb, var(--fg) 24%, transparent);
-  transition: padding-left 0.35s ease;
+  transition: padding-left 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 
   &:hover { padding-left: 0.8rem; }
 }
@@ -366,7 +379,7 @@
   padding: clamp(0.7rem, 1.2vh, 1.2rem) 0;
   border-bottom: 1px solid color-mix(in srgb, var(--fg) 22%, transparent);
   cursor: pointer;
-  transition: padding-left 0.35s ease;
+  transition: padding-left 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 
   &:hover { padding-left: 0.8rem; }
 }
@@ -407,7 +420,7 @@
   font-weight: 500;
   letter-spacing: 0.05em;
   cursor: pointer;
-  transition: background 0.3s, gap 0.3s;
+  transition: background 0.35s ease, gap 0.35s ease, transform 0.35s ease;
   width: fit-content;
 
   .arrow { transition: transform 0.3s; }
@@ -415,6 +428,7 @@
   &:hover {
     background: color-mix(in srgb, var(--accent) 88%, black 12%);
     color: #161311;
+    transform: translateY(-1px);
   }
 }
 
@@ -437,30 +451,16 @@
 // Small tablet / large phone (<=768px)
 @media (max-width: 768px) {
 
-  .slider {
-    position: relative;
-    inset: auto;
-    overflow: visible;
-    min-height: auto;
-  }
-
-  .slide {
-    position: relative;
-    inset: auto;
-    min-height: 100svh;
-    display: flex;
-  }
-
-  .slide:not(.slide-0) {
-    display: flex;
-  }
-
   .slide {
     padding: max(12vh, 6.8rem) 5vw 10vh;
     justify-content: flex-start;
+    min-height: auto;
   }
 
-  .slide-inner { max-height: none; }
+  .slide-inner {
+    min-height: auto;
+    max-height: none;
+  }
 
   // Slide 0: hero stacks vertically
   .hero-layout {
@@ -539,6 +539,18 @@
   }
 
   .slide-indicator { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .scroll-line {
+    animation: none;
+  }
 }
 
 // Mobile (<=480px)
