@@ -437,6 +437,24 @@
 // Small tablet / large phone (<=768px)
 @media (max-width: 768px) {
 
+  .slider {
+    position: relative;
+    inset: auto;
+    overflow: visible;
+    min-height: auto;
+  }
+
+  .slide {
+    position: relative;
+    inset: auto;
+    min-height: 100svh;
+    display: flex;
+  }
+
+  .slide:not(.slide-0) {
+    display: flex;
+  }
+
   .slide {
     padding: max(12vh, 6.8rem) 5vw 10vh;
     justify-content: flex-start;

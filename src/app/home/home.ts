@@ -55,6 +55,11 @@ export class Home implements AfterViewInit, OnDestroy {
 
   private rootElement: HTMLElement | null = null;
 
+  private isMobileViewport(): boolean {
+    if (!isPlatformBrowser(this.platformId)) return false;
+    return window.matchMedia('(max-width: 768px), (pointer: coarse)').matches;
+  }
+
   private get slideEls(): HTMLElement[] {
     return [
       this.slide0().nativeElement,
@@ -81,6 +86,10 @@ export class Home implements AfterViewInit, OnDestroy {
         .from(s0.querySelector('.meta-left'), { y: 20, opacity: 0, duration: 0.6 }, '-=0.4')
         .from(s0.querySelector('.meta-right'), { y: 20, opacity: 0, duration: 0.6 }, '-=0.5')
         .from(s0.querySelector('.slide-indicator'), { opacity: 0, duration: 0.4 }, '-=0.2');
+
+      if (this.isMobileViewport()) {
+        return;
+      }
 
       this.wheelHandler = (e: WheelEvent) => {
         e.preventDefault();
