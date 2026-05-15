@@ -48,14 +48,10 @@ export class Home implements AfterViewInit, OnDestroy {
   private wheelHandler!: (e: WheelEvent) => void;
   private touchStartHandler!: (e: TouchEvent) => void;
   private touchEndHandler!: (e: TouchEvent) => void;
-  private touchCancelHandler!: () => void;
-  private pointerDownHandler!: (e: PointerEvent) => void;
-  private pointerUpHandler!: (e: PointerEvent) => void;
-  private pointerCancelHandler!: () => void;
   private touchStartY = 0;
-  private pointerStartY = 0;
-  private usingPointerEvents = false;
-  private readonly swipeThreshold = 30;
+  private wheelDeltaAccumulator = 0;
+  private wheelResetTimer: ReturnType<typeof setTimeout> | null = null;
+  private readonly wheelThreshold = 90;
 
   private rootElement: HTMLElement | null = null;
 
@@ -89,7 +85,24 @@ export class Home implements AfterViewInit, OnDestroy {
       this.wheelHandler = (e: WheelEvent) => {
         e.preventDefault();
         if (this.isAnimating) return;
-        this.zone.run(() => this.goTo(this.currentSlide() + (e.deltaY > 0 ? 1 : -1)));
+
+        this.wheelDeltaAccumulator += e.deltaY;
+
+        if (this.wheelResetTimer) {
+          clearTimeout(this.wheelResetTimer);
+        }
+
+        this.wheelResetTimer = setTimeout(() => {
+          this.wheelDeltaAccumulator = 0;
+        }, 140);
+
+        if (Math.abs(this.wheelDeltaAccumulator) < this.wheelThreshold) {
+          return;
+        }
+
+        const direction = this.wheelDeltaAccumulator > 0 ? 1 : -1;
+        this.wheelDeltaAccumulator = 0;
+        this.zone.run(() => this.goTo(this.currentSlide() + direction));
       };
 
       this.touchStartHandler = (e: TouchEvent) => {
@@ -98,45 +111,16 @@ export class Home implements AfterViewInit, OnDestroy {
 
       this.touchEndHandler = (e: TouchEvent) => {
         const delta = this.touchStartY - e.changedTouches[0].clientY;
-        if (Math.abs(delta) < this.swipeThreshold) return;
+        if (Math.abs(delta) < 50) return;
         this.zone.run(() => this.goTo(this.currentSlide() + (delta > 0 ? 1 : -1)));
-      };
-
-      this.touchCancelHandler = () => {
-        this.touchStartY = 0;
-      };
-
-      this.pointerDownHandler = (e: PointerEvent) => {
-        if (e.pointerType !== 'touch') return;
-        this.pointerStartY = e.clientY;
-      };
-
-      this.pointerUpHandler = (e: PointerEvent) => {
-        if (e.pointerType !== 'touch') return;
-        const delta = this.pointerStartY - e.clientY;
-        if (Math.abs(delta) < this.swipeThreshold) return;
-        this.zone.run(() => this.goTo(this.currentSlide() + (delta > 0 ? 1 : -1)));
-      };
-
-      this.pointerCancelHandler = () => {
-        this.pointerStartY = 0;
       };
 
       const hz = this.hoverZone().nativeElement;
 
       this.rootElement = hz;
       hz.addEventListener('wheel', this.wheelHandler, { passive: false });
-
-      if ('PointerEvent' in window) {
-        this.usingPointerEvents = true;
-        hz.addEventListener('pointerdown', this.pointerDownHandler, { passive: true });
-        hz.addEventListener('pointerup', this.pointerUpHandler, { passive: true });
-        hz.addEventListener('pointercancel', this.pointerCancelHandler, { passive: true });
-      } else {
-        hz.addEventListener('touchstart', this.touchStartHandler, { passive: true });
-        hz.addEventListener('touchend', this.touchEndHandler, { passive: true });
-        hz.addEventListener('touchcancel', this.touchCancelHandler, { passive: true });
-      }
+      hz.addEventListener('touchstart', this.touchStartHandler, { passive: true });
+      hz.addEventListener('touchend', this.touchEndHandler, { passive: true });
     });
   }
 
@@ -162,31 +146,29 @@ export class Home implements AfterViewInit, OnDestroy {
           });
         },
       })
-      .to(prevEl, { yPercent: -dir * 30, opacity: 0, duration: 0.9, ease: 'power3.inOut' })
-      .to(nextEl, { yPercent: 0, duration: 1, ease: 'power3.inOut' }, '-=0.7')
+      .to(prevEl, { yPercent: -dir * 18, opacity: 0, duration: 0.75, ease: 'power2.inOut' })
+      .to(nextEl, { yPercent: 0, duration: 0.9, ease: 'power2.out' }, '-=0.58')
       .from(
         nextEl.querySelectorAll(
           '.title-word, .meta-left, .meta-right, .slide-eyebrow, .cta-btn, .work-grid-item, .about-grid-item, .intro-name, .intro-text, .intro-cta, .logos-label, .logo-card'
         ),
-        { y: 40, opacity: 0, stagger: 0.06, duration: 0.7, ease: 'power3.out' },
-        '-=0.5'
+        { y: 24, opacity: 0, stagger: 0.045, duration: 0.55, ease: 'power2.out' },
+        '-=0.42'
       );
   }
 
   ngOnDestroy(): void {
     if (!isPlatformBrowser(this.platformId)) return;
 
+    if (this.wheelResetTimer) {
+      clearTimeout(this.wheelResetTimer);
+      this.wheelResetTimer = null;
+    }
+
     if (this.rootElement) {
       this.rootElement.removeEventListener('wheel', this.wheelHandler);
-      if (this.usingPointerEvents) {
-        this.rootElement.removeEventListener('pointerdown', this.pointerDownHandler);
-        this.rootElement.removeEventListener('pointerup', this.pointerUpHandler);
-        this.rootElement.removeEventListener('pointercancel', this.pointerCancelHandler);
-      } else {
-        this.rootElement.removeEventListener('touchstart', this.touchStartHandler);
-        this.rootElement.removeEventListener('touchend', this.touchEndHandler);
-        this.rootElement.removeEventListener('touchcancel', this.touchCancelHandler);
-      }
+      this.rootElement.removeEventListener('touchstart', this.touchStartHandler);
+      this.rootElement.removeEventListener('touchend', this.touchEndHandler);
     }
   }
 }
