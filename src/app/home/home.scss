@@ -451,8 +451,12 @@
 // Small tablet / large phone (<=768px)
 @media (max-width: 768px) {
 
+  .slide + .slide {
+    margin-top: clamp(0.12rem, 0.7vw, 0.3rem);
+  }
+
   .slide {
-    padding: max(12vh, 6.8rem) 5vw 10vh;
+    padding: max(10vh, 5.5rem) 5vw 4.8vh;
     justify-content: flex-start;
     min-height: auto;
   }
@@ -585,7 +589,11 @@
 // Mobile (<=480px)
 @media (max-width: 480px) {
 
-  .slide { padding: max(11vh, 6.6rem) 5vw 12vh; }
+  .slide + .slide {
+    margin-top: 0;
+  }
+
+  .slide { padding: max(9.7vh, 5.4rem) 5vw 4.2vh; }
 
   .title-word { font-size: clamp(2.4rem, 14vw, 4rem); }
   .slide-2 .title-word,
