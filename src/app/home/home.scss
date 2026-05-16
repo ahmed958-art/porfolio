@@ -455,6 +455,10 @@
     margin-top: 0.6rem;
   }
 
+  .slide-1 + .slide-2 {
+    margin-top: 1rem;
+  }
+
   .slide {
     padding: max(10.2vh, 6.1rem) 5vw 1vh;
     justify-content: flex-start;
@@ -462,7 +466,7 @@
   }
 
   .slide-0 {
-    padding-top: max(14vh, 8rem);
+    padding-top: max(11.5vh, 6.7rem);
   }
 
   .slide:not(.slide-0) {
@@ -490,7 +494,7 @@
   .slide-0 .hero-left {
     width: 100%;
     align-items: center;
-    margin-top: clamp(1.8rem, 4vw, 3rem) !important;
+    margin-top: clamp(0.8rem, 2.2vw, 1.4rem) !important;
   }
 
   .slide-0 .meta {
@@ -602,10 +606,14 @@
     margin-top: 0.5rem;
   }
 
+  .slide-1 + .slide-2 {
+    margin-top: 0.9rem;
+  }
+
   .slide { padding: max(9.8vh, 5.8rem) 5vw 0.9vh; }
 
   .slide-0 {
-    padding-top: max(13vh, 7.4rem);
+    padding-top: max(10.4vh, 6rem);
   }
 
   .slide:not(.slide-0) {
@@ -634,7 +642,7 @@
   .slide-0 .hero-layout { gap: 1.2rem; }
 
   .slide-0 .hero-left {
-    margin-top: clamp(1.2rem, 3vw, 2rem) !important;
+    margin-top: clamp(0.4rem, 1.6vw, 0.8rem) !important;
   }
 
   .slide-0 app-three-d-hover-gallery {
