@@ -452,7 +452,7 @@
 @media (max-width: 768px) {
 
   .slide + .slide {
-    margin-top: clamp(0.28rem, 1vw, 0.55rem);
+    margin-top: 0.6rem;
   }
 
   .slide {
@@ -466,7 +466,7 @@
   }
 
   .slide:not(.slide-0) {
-    padding-top: max(8vh, 5rem);
+    padding-top: max(10.2vh, 6.1rem);
   }
 
   .slide-inner {
@@ -599,17 +599,17 @@
 @media (max-width: 480px) {
 
   .slide + .slide {
-    margin-top: 0.2rem;
+    margin-top: 0.5rem;
   }
 
-  .slide { padding: max(9.8vh, 5.8rem) 5vw 0.6vh; }
+  .slide { padding: max(9.8vh, 5.8rem) 5vw 0.9vh; }
 
   .slide-0 {
     padding-top: max(13vh, 7.4rem);
   }
 
   .slide:not(.slide-0) {
-    padding-top: max(7.2vh, 4.5rem);
+    padding-top: max(9.8vh, 5.8rem);
   }
 
   .title-word { font-size: clamp(2.4rem, 14vw, 4rem); }
@@ -634,7 +634,7 @@
   .slide-0 .hero-layout { gap: 1.2rem; }
 
   .slide-0 .hero-left {
-    margin-top: clamp(1.4rem, 5vw, 2.3rem) !important;
+    margin-top: clamp(1.4rem, 4vw, 2.3rem) !important;
   }
 
   .slide-0 app-three-d-hover-gallery {
